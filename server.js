@@ -9,7 +9,7 @@ mongoose.connect('mongodb://localhost/workout', {useNewUrlParser: true});
 
 mdb.on('error', console.error.bind(console, 'connection error:'));
 mdb.once('open', function() {
-  console.log("Connected!")
+  console.log("Connected to MongoDB!")
 });
 
 app.use(express.urlencoded({ extended: true }));
