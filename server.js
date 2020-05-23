@@ -4,6 +4,7 @@ const mdb = mongoose.connection;
 const app = express();
 const db = require("./models");
 const logger = require('morgan');
+var bodyParser = require('body-parser');
 const PORT = process.env.PORT || 8080;
 
 mongoose.connect('mongodb://localhost/workout', {useNewUrlParser: true});
@@ -13,8 +14,11 @@ mdb.once('open', function() {
   console.log("Connected to MongoDB!")
 });
 
-app.use(express.urlencoded({ extended: false }));
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(logger("dev"));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 require("./routes/html-routes.js")(app);

@@ -18,10 +18,17 @@ module.exports = function(app) {
         })
     })
 
-    app.post("/api/workouts", ({body}, res)=>{
+    app.post("/api/workouts/", ({ body }, res) => {
         console.log(body)
-        // let newWorkout = new db.Workout.create({body})
-    })
+
+        // db.Workout.create(body)
+        //   .then(workout => {
+        //     console.log(workout);
+        //   })
+        //   .catch(err => {
+        //     res.status(400).json(err);
+        //   })
+      });
 
 
 
