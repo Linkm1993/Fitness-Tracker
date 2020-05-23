@@ -14,9 +14,10 @@ module.exports = function(app) {
             else{
                 res.json(result)
             }
-
-
         })
+    })
+
+    app.post("/api/workouts", ({body}, res)=>{
     })
 
 
