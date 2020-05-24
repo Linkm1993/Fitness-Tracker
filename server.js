@@ -15,7 +15,7 @@ mdb.once('open', function() {
 });
 
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger("dev"));
 app.use(express.urlencoded({ extended: true }));

@@ -7,30 +7,23 @@ mongoose.connect('mongodb://localhost/workout', {useNewUrlParser: true});
 
 module.exports = function(app) {
 
-    app.get("/api/workouts", (req, res) => {
+    app.get("/api/workouts", (request, response) => {
         db.Workout.find({}, (err, result)=>{
             if (err){
                 throw (err)
             }
             else{
-                res.json(result)
+                response.json(result)
             }
         })
     })
 
-    app.post("/api/workouts/", ({ body }, res) => {
-        console.log(body)
-
-        // db.Workout.create(body)
-        //   .then(workout => {
-        //     console.log(workout);
-        //   })
-        //   .catch(err => {
-        //     res.status(400).json(err);
-        //   })
+    app.get("/api/workouts/range", (request, response) => {
+        db.Workout.find({})
+          .then(workouts => {
+            response.json(workouts);
+          })
+          .catch(err => response.json(err));
       });
-
-
-
 
 }
