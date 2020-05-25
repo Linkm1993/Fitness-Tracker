@@ -1,51 +1,41 @@
 const mongoose = require("mongoose");
-
 const Schema = mongoose.Schema;
 
-const workout = new Schema (
-    {
-        day: {
-            type: Date,
-            default: () => new Date()
-        },
-        excercises: [
-            {
-                type: {
-                    type: String,
-                    trime: true,
-                    required: "Enter type."
-                },
-                name: {
-                    type: String, 
-                    trim: true,
-                    required: "Enter name"
-                },
-                duration: {
-                    type: Number,
-                    required: "Enter durations"
-                },
-                distance: {
-                    type: Number
-                },
-                weight: {
-                    type: Number
-                },
-                reps: {
-                    type: Number
-                },
-                sets: {
-                    type: Number
-                }
-            }
-        ]
-    },
-    {
-        toJSON: {
-            virtuals: true
-        }
-    }
-);
+// Doesn't validate certain workouts as lifting & cardio have different options.
+const workoutSchema = new Schema({
+  name: {
+    type: String,
+    trim: true,
+    required: "Enter the type of exercise"
+  },
+  duration: {
+    type: Number,
+    required: "Enter the amount of time you 'worked out' ;) "
+  },
+  weight: {
+    type: Number
+  },
+  sets: {
+    type: Number
+  },
+  reps: {
+    type: Number
+  },
+  distance: {
+    type: Number
+},
+  date: {
+    type: Date,
+    default: Date.now
+  }
+});
+// combines the total amount of exercise conducted by time for graph functionality.
+workoutSchema.virtual("totalDuration").get(function () {
+  return this.exercises.reduce((total, exercise) => {
+    return total + exercise.duration;
+  }, 0);
+});
 
-const Workout = mongoose.model("Workout", workout);
+const Workout = mongoose.model("Workout", workoutSchema);
 
 module.exports = Workout;

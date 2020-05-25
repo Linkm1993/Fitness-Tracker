@@ -1,29 +1,30 @@
 const express = require("express");
-const mongoose = require('mongoose');
-const mdb = mongoose.connection;
+const mongoose = require("mongoose");
 const app = express();
-const db = require("./models");
-const logger = require('morgan');
-var bodyParser = require('body-parser');
-const PORT = process.env.PORT || 8080;
+const morgan = require("morgan");
 
-mongoose.connect('mongodb://localhost/workout', {useNewUrlParser: true});
-
-mdb.on('error', console.error.bind(console, 'connection error:'));
-mdb.once('open', function() {
-  console.log("Connected to MongoDB!")
-});
+const PORT = process.env.PORT || 3000;
+app.use(morgan("dev"));
 
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(logger("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static("public"));
-require("./routes/html-routes.js")(app);
-require("./routes/api-routes")(app);
+app.use(express.static('public'));
 
-app.listen(PORT, function() {
-    console.log("==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.", PORT, PORT);
-  });
+
+
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/workout";
+// {
+//   useNewUrlParser: true,
+//   useFindAndModify: false
+// });
+
+// routes
+app.use(require("./routes/api"));
+app.use(require("./routes/html"));
+
+mongoose.connect(MONGODB_URI);
+
+app.listen(PORT, () => {
+  console.log(`App running on port ${PORT}!`);
+});
